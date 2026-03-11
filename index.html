@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qualitative Video Comparison</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f8f9fa;
+      font-family: 'Times New Roman', Times, serif;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 48px 32px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(21, 101, 192, 0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(198, 40, 40, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .page-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .page-header p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* ── Global Controls ── */
+    .global-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 32px;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .ctrl-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .ctrl-btn.play-pause {
+      background: linear-gradient(135deg, #1565c0, #1976d2);
+      color: #fff;
+    }
+
+    .ctrl-btn.play-pause:hover {
+      background: linear-gradient(135deg, #0d47a1, #1565c0);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
+    }
+
+    .ctrl-btn.restart {
+      background: #f5f5f5;
+      color: #555;
+      border: 1px solid #e0e0e0;
+    }
+
+    .ctrl-btn.restart:hover {
+      background: #eeeeee;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ── Sections ── */
+    .section {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 32px 20px;
+    }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .section-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #888;
+      font-weight: 400;
+      margin-bottom: 24px;
+    }
+
+    /* ── Comparison Cards ── */
+    .comparison-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .comparison-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 32px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #fafafa;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .scene-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      line-height: 1.4;
+      max-width: 85%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .scene-name:hover {
+      white-space: normal;
+      overflow: visible;
+    }
+
+    .card-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #fff;
+      color: #666;
+      transition: all 0.15s ease;
+    }
+
+    .card-btn:hover {
+      background: #f5f5f5;
+      border-color: #ccc;
+    }
+
+    .video-pair {
+      display: flex;
+      gap: 0;
+    }
+
+    .video-side {
+      flex: 1;
+      position: relative;
+    }
+
+    .video-side video {
+      width: 100%;
+      display: block;
+    }
+
+    .video-side .method-tag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .video-side.baseline-side .method-tag {
+      background: #c62828;
+    }
+
+    .video-side.ours-side .method-tag {
+      background: #1565c0;
+    }
+
+    .video-side .method-label {
+      position: absolute;
+      top: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      pointer-events: none;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .video-side.baseline-side .method-label {
+      left: 10px;
+      background: rgba(198, 40, 40, 0.9);
+      color: #fff;
+    }
+
+    .video-side.ours-side .method-label {
+      right: 10px;
+      background: rgba(21, 101, 192, 0.9);
+      color: #fff;
+    }
+
+    .video-divider {
+      width: 2px;
+      background: #e0e0e0;
+      flex-shrink: 0;
+    }
+
+    /* ── Progress Bar ── */
+    .progress-container {
+      padding: 0 20px 14px;
+      background: #fafafa;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: #e8e8e8;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1565c0, #42a5f5);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .progress-time {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      text-align: center;
+      padding: 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .page-header h1 { font-size: 26px; }
+      .page-header p { font-size: 14px; }
+      .section { padding: 24px 16px 12px; }
+      .video-pair { flex-direction: column; }
+      .video-divider { width: 100%; height: 2px; }
+      .video-side.ours-side .method-label { left: 10px; right: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Qualitative Video Comparison</h1>
+    <p>Side-by-side comparison of generated videos. Baseline methods on the left, our method on the right. All videos are synchronized for direct comparison.</p>
+  </header>
+
+  <!-- Global Controls -->
+  <div class="global-controls">
+    <button class="ctrl-btn play-pause" id="globalPlayPause" onclick="toggleAllPlayback()">⏸ Pause All</button>
+    <button class="ctrl-btn restart" onclick="restartAll()">↺ Restart All</button>
+  </div>
+
+  <!-- Section 0: Teaser -->
+  <section class="section">
+    <div class="section-title">Teaser</div>
+    <div class="section-subtitle">Featured comparison</div>
+
+    <div class="comparison-card" data-scene="teaser">
+      <div class="card-header">
+        <span class="scene-name" title="The camera moves around a man on a bicycle. He wears a blue jacket, sunglasses, and a yellow helmet as he rides.">The camera moves around a man on a bicycle. He wears a blue jacket, sunglasses, and a yellow helmet as he rides.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('teaser')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('teaser')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="teaser" data-role="baseline">
+            <source src="baseline_88.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="teaser" data-role="ours">
+            <source src="ours_88.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'teaser')">
+          <div class="progress-bar-fill" id="progress-teaser"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-teaser">0:00</span>
+          <span id="time-total-teaser">0:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Wan vs Ours -->
+  <section class="section">
+    <div class="section-title">Wan vs. Ours</div>
+    <div class="section-subtitle">Comparing the Wan baseline with our method across 5 scenes</div>
+
+    <!-- Car -->
+    <div class="comparison-card" data-scene="car_wan">
+      <div class="card-header">
+        <span class="scene-name" title="A red sports car drives on a road. The camera pans right.">A red sports car drives on a road. The camera pans right.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('car_wan')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('car_wan')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="car_wan" data-role="baseline">
+            <source src="qual_fig/car_wan.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="car_wan" data-role="ours">
+            <source src="qual_fig/car_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'car_wan')">
+          <div class="progress-bar-fill" id="progress-car_wan"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-car_wan">0:00</span>
+          <span id="time-total-car_wan">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woman -->
+    <div class="comparison-card" data-scene="woman_wan">
+      <div class="card-header">
+        <span class="scene-name" title="Kitchen appliances on store shelves, a customer picking up a blender to inspect it. The camera slowly pans left.">Kitchen appliances on store shelves, a customer picking up a blender to inspect it. The camera slowly pans left.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('woman_wan')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('woman_wan')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="woman_wan" data-role="baseline">
+            <source src="qual_fig/woman_wan.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="woman_wan" data-role="ours">
+            <source src="qual_fig/woman_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'woman_wan')">
+          <div class="progress-bar-fill" id="progress-woman_wan"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-woman_wan">0:00</span>
+          <span id="time-total-woman_wan">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surfer -->
+    <div class="comparison-card" data-scene="surfer_wan">
+      <div class="card-header">
+        <span class="scene-name" title="A man in a Hawaiian shirt holds a surfboard. He moves the surfboard to show a surfing stance.">A man in a Hawaiian shirt holds a surfboard. He moves the surfboard to show a surfing stance.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('surfer_wan')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('surfer_wan')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="surfer_wan" data-role="baseline">
+            <source src="qual_fig/surfer_wan.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="surfer_wan" data-role="ours">
+            <source src="qual_fig/surfer_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'surfer_wan')">
+          <div class="progress-bar-fill" id="progress-surfer_wan"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-surfer_wan">0:00</span>
+          <span id="time-total-surfer_wan">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guy -->
+    <div class="comparison-card" data-scene="guy_wan">
+      <div class="card-header">
+        <span class="scene-name" title="A man stands near a car. He wears a jacket and cap. The camera pans right.">A man stands near a car. He wears a jacket and cap. The camera pans right.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('guy_wan')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('guy_wan')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="guy_wan" data-role="baseline">
+            <source src="qual_fig/guy_wan.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="guy_wan" data-role="ours">
+            <source src="qual_fig/guy_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'guy_wan')">
+          <div class="progress-bar-fill" id="progress-guy_wan"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-guy_wan">0:00</span>
+          <span id="time-total-guy_wan">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gear -->
+    <div class="comparison-card" data-scene="gear_wan">
+      <div class="card-header">
+        <span class="scene-name" title="A macro shot of three distinct metal cogwheels interlocking and turning smoothly inside a machine. The teeth of the gears mesh perfectly with one another without clipping through or melting into each other.">A macro shot of three distinct metal cogwheels interlocking and turning smoothly inside a machine. The teeth of the gears mesh perfectly with one another without clipping through or melting into each other.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('gear_wan')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('gear_wan')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="gear_wan" data-role="baseline">
+            <source src="qual_fig/gear_wan.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="gear_wan" data-role="ours">
+            <source src="qual_fig/gear_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'gear_wan')">
+          <div class="progress-bar-fill" id="progress-gear_wan"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-gear_wan">0:00</span>
+          <span id="time-total-gear_wan">0:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: REPA vs Ours -->
+  <section class="section">
+    <div class="section-title">REPA vs. Ours</div>
+    <div class="section-subtitle">Comparing the REPA baseline with our method</div>
+
+    <!-- Dog Park -->
+    <div class="comparison-card" data-scene="dog_park">
+      <div class="card-header">
+        <span class="scene-name" title="A park with a bench and trees, a dog running across the grass. The camera slowly pans right.">A park with a bench and trees, a dog running across the grass. The camera slowly pans right.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('dog_park')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('dog_park')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">REPA</div>
+          <video muted loop autoplay playsinline data-pair="dog_park" data-role="baseline">
+            <source src="qual_fig_repa/dog_park_repa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="dog_park" data-role="ours">
+            <source src="qual_fig_repa/dog_park.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'dog_park')">
+          <div class="progress-bar-fill" id="progress-dog_park"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-dog_park">0:00</span>
+          <span id="time-total-dog_park">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hut -->
+    <div class="comparison-card" data-scene="hut">
+      <div class="card-header">
+        <span class="scene-name" title="A wooden gazebo over a pond, birds landing on the railing one by one. The camera slowly tilts up.">A wooden gazebo over a pond, birds landing on the railing one by one. The camera slowly tilts up.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('hut')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('hut')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">REPA</div>
+          <video muted loop autoplay playsinline data-pair="hut" data-role="baseline">
+            <source src="qual_fig_repa/hut_repa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="hut" data-role="ours">
+            <source src="qual_fig_repa/hut.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'hut')">
+          <div class="progress-bar-fill" id="progress-hut"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-hut">0:00</span>
+          <span id="time-total-hut">0:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    All videos autoplay muted and loop. Use the controls above to synchronize playback.
+  </footer>
+
+  <script>
+    // ── Pairs registry ──
+    const pairIds = ['teaser', 'car_wan', 'woman_wan', 'surfer_wan', 'guy_wan', 'gear_wan', 'dog_park', 'hut'];
+
+    function getVideos(pairId) {
+      return document.querySelectorAll(`video[data-pair="${pairId}"]`);
+    }
+
+    function getAllVideos() {
+      return document.querySelectorAll('video[data-pair]');
+    }
+
+    // ── Format time ──
+    function fmt(s) {
+      if (isNaN(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    // ── Sync: whenever the baseline video fires timeupdate, sync ours ──
+    function setupSync() {
+      pairIds.forEach(pairId => {
+        const videos = getVideos(pairId);
+        if (videos.length < 2) return;
+
+        const baseline = videos[0];
+        const ours = videos[1];
+
+        baseline.addEventListener('timeupdate', () => {
+          // Sync ours to baseline
+          const diff = Math.abs(baseline.currentTime - ours.currentTime);
+          if (diff > 0.15) {
+            ours.currentTime = baseline.currentTime;
+          }
+
+          // Update progress bar
+          const fill = document.getElementById(`progress-${pairId}`);
+          const curEl = document.getElementById(`time-current-${pairId}`);
+          const totEl = document.getElementById(`time-total-${pairId}`);
+          if (fill && baseline.duration) {
+            fill.style.width = `${(baseline.currentTime / baseline.duration) * 100}%`;
+          }
+          if (curEl) curEl.textContent = fmt(baseline.currentTime);
+          if (totEl) totEl.textContent = fmt(baseline.duration);
+        });
+
+        // When baseline loops, also restart ours to keep sync tight
+        baseline.addEventListener('seeked', () => {
+          if (baseline.currentTime < 0.1) {
+            ours.currentTime = 0;
+          }
+        });
+      });
+    }
+
+    // ── Toggle play/pause for a pair ──
+    function togglePair(pairId) {
+      const videos = getVideos(pairId);
+      const isPaused = videos[0].paused;
+      videos.forEach(v => isPaused ? v.play() : v.pause());
+    }
+
+    // ── Restart a pair ──
+    function restartPair(pairId) {
+      const videos = getVideos(pairId);
+      videos.forEach(v => {
+        v.currentTime = 0;
+        v.play();
+      });
+    }
+
+    // ── Seek within a pair ──
+    function seekPair(event, pairId) {
+      const bar = event.currentTarget;
+      const rect = bar.getBoundingClientRect();
+      const ratio = (event.clientX - rect.left) / rect.width;
+      const videos = getVideos(pairId);
+      videos.forEach(v => {
+        if (v.duration) v.currentTime = ratio * v.duration;
+      });
+    }
+
+    // ── Global controls ──
+    let globalPlaying = true;
+
+    function toggleAllPlayback() {
+      globalPlaying = !globalPlaying;
+      const btn = document.getElementById('globalPlayPause');
+      getAllVideos().forEach(v => globalPlaying ? v.play() : v.pause());
+      btn.textContent = globalPlaying ? '⏸ Pause All' : '▶ Play All';
+    }
+
+    function restartAll() {
+      getAllVideos().forEach(v => {
+        v.currentTime = 0;
+        v.play();
+      });
+      globalPlaying = true;
+      document.getElementById('globalPlayPause').textContent = '⏸ Pause All';
+    }
+
+    // ── Init ──
+    document.addEventListener('DOMContentLoaded', () => {
+      setupSync();
+
+      // Ensure autoplay starts (browsers may block)
+      getAllVideos().forEach(v => {
+        v.play().catch(() => {});
+      });
+    });
+  </script>
+
+</body>
+
+</html>
