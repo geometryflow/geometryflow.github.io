@@ -316,6 +316,26 @@
       .video-divider { width: 100%; height: 2px; }
       .video-side.ours-side .method-label { left: 10px; right: auto; }
     }
+
+    .annotation {
+      margin-top: 8px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #000000;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      min-height: 36px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .annotation:hover { border-color: rgba(255,255,255,0.2); }
+    .annotation:focus { border-color: #7c8cf8; background: rgba(255,255,255,0.06); color: #e0e4ec; }
+    .annotation:empty::before {
+      content: 'Add notes here...';
+      color: rgba(255,255,255,0.2);
+    }
   </style>
 </head>
 
@@ -372,13 +392,14 @@
           <span id="time-total-teaser">0:00</span>
         </div>
       </div>
+      <div class="annotation">We can observe that Wan produces initial strong distortions of both background and the foreground object. Observe for example the cow patterned car in the back and the face and helmet of the cyclist. Over the course of the video the background rapidly changes at an implausible speed. In contrast, the main subject is preserved over the entire video and the background is consistent.</div>
     </div>
   </section>
 
   <!-- Section 1: Wan vs Ours -->
   <section class="section">
     <div class="section-title">Wan vs. Ours</div>
-    <div class="section-subtitle">Comparing the Wan baseline with our method across 5 scenes</div>
+    <div class="section-subtitle">Comparing the Wan baseline with our method across test scenes</div>
 
     <!-- Car -->
     <div class="comparison-card" data-scene="car_wan">
@@ -415,6 +436,7 @@
           <span id="time-total-car_wan">0:00</span>
         </div>
       </div>
+      <div class="annotation">We can see in the wan video that in the initial frames the car switches from a convertible to a coupe. (See top). Then in the end, a sign appears and disappears and the scene is distorted heavily. In contrast, our method preserves the car and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
     </div>
 
     <!-- Woman -->
@@ -452,6 +474,7 @@
           <span id="time-total-woman_wan">0:00</span>
         </div>
       </div>
+      <div class="annotation">The wan generated video suffers from strong inconsistencies of the main subject. In contrast, our method preserves the main subject and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
     </div>
 
     <!-- Surfer -->
@@ -489,6 +512,7 @@
           <span id="time-total-surfer_wan">0:00</span>
         </div>
       </div>
+      <div class="annotation">The wan generated video produces strong artifacts when the surfer moves the surfboard. In contrast, our method does not have issues with the surfboard. Additionally, we can observe a similar identity and general scene structure between the two videos.</div>
     </div>
 
     <!-- Guy -->
@@ -526,6 +550,7 @@
           <span id="time-total-guy_wan">0:00</span>
         </div>
       </div>
+      <div class="annotation">The wan generated video distorts the face of the man when he turns his head. In contrast, our method preserves the face of the man. The overall identities are similar but the camera motion is not as well preserved as in previous examples.</div>
     </div>
 
     <!-- Gear -->
@@ -563,13 +588,14 @@
           <span id="time-total-gear_wan">0:00</span>
         </div>
       </div>
+      <div class="annotation">The wan generated video suffers from strong artifacts when the gears rotate. In contrast, our method preserves the gears and the background. This video shows that our method optimized towards a different identity but still similar motion and scene structure.</div>
     </div>
   </section>
 
   <!-- Section 2: REPA vs Ours -->
   <section class="section">
     <div class="section-title">REPA vs. Ours</div>
-    <div class="section-subtitle">Comparing the REPA baseline with our method</div>
+    <div class="section-subtitle">Comparing the REPA baseline with our method on the test set</div>
 
     <!-- Dog Park -->
     <div class="comparison-card" data-scene="dog_park">
@@ -606,12 +632,13 @@
           <span id="time-total-dog_park">0:00</span>
         </div>
       </div>
+      <div class="annotation">In the repa generated video the dog disappears when it runs behind the tree. In contrast, our method preserves the dog.</div>
     </div>
 
     <!-- Hut -->
     <div class="comparison-card" data-scene="hut">
       <div class="card-header">
-        <span class="scene-name" title="A wooden gazebo over a pond, birds landing on the railing one by one. The camera slowly tilts up.">A wooden gazebo over a pond, birds landing on the railing one by one. The camera slowly tilts up.</span>
+        <span class="scene-name" title="Hut">Hut</span>
         <div class="card-controls">
           <button class="card-btn" onclick="togglePair('hut')">⏯ Play / Pause</button>
           <button class="card-btn" onclick="restartPair('hut')">↺ Restart</button>
@@ -643,6 +670,951 @@
           <span id="time-total-hut">0:00</span>
         </div>
       </div>
+      <div class="annotation">The repa generated video the structure of the railing is intersecting with birds leading to severe artifacts.</div>
+    </div>
+
+
+    <!-- Plate -->
+    <div class="comparison-card" data-scene="plate">
+      <div class="card-header">
+        <span class="scene-name" title="A hand turns a dinner plate.">A hand turns a dinner plate.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('plate')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('plate')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">REPA</div>
+          <video muted loop autoplay playsinline data-pair="plate" data-role="baseline">
+            <source src="qual_fig_repa/plate_repa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="plate" data-role="ours">
+            <source src="qual_fig_repa/plate_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'plate')">
+          <div class="progress-bar-fill" id="progress-plate"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-plate">0:00</span>
+          <span id="time-total-plate">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The repa video introduces strong deformations of the contents on the plate. Both methods do not produce a video following the prompt exactly. We observed</div>
+    </div>
+
+    <!-- Water Glass -->
+    <div class="comparison-card" data-scene="water_glass">
+      <div class="card-header">
+        <span class="scene-name" title="A first-person view walking smoothly down a classic metal spiral staircase. The curvature of the handrail and the uniform shape of the pie-slice steps remain perfectly consistent as the camera rotates downward.">A first-person view walking smoothly down a classic metal spiral staircase. The curvature of the handrail and the uni...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('water_glass')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('water_glass')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">REPA</div>
+          <video muted loop autoplay playsinline data-pair="water_glass" data-role="baseline">
+            <source src="qual_fig_repa/water_glass_repa.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="water_glass" data-role="ours">
+            <source src="qual_fig_repa/water_glass_ours.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'water_glass')">
+          <div class="progress-bar-fill" id="progress-water_glass"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-water_glass">0:00</span>
+          <span id="time-total-water_glass">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+    </div>
+  </section>
+
+  <!-- Section 3: Extended Wan vs Ours -->
+  <section class="section">
+    <div class="section-title">Extended Wan vs. Ours</div>
+    <div class="section-subtitle">Additional comparisons across more prompts and in partcular many out of distribution prompts</div>
+
+    <div class="comparison-card" data-scene="ext_1">
+      <div class="card-header">
+        <span class="scene-name" title="A winding neon road and palm trees are silhouetted against a purple and pink sky with a radiant sun.">A winding neon road and palm trees are silhouetted against a purple and pink sky with a radiant sun.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_1')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_1')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_1" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/1_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_1" data-role="ours">
+            <source src="wan_vs_ours_new/ours/1_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_1')">
+          <div class="progress-bar-fill" id="progress-ext_1"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_1">0:00</span>
+          <span id="time-total-ext_1">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">Bothe exampler look extremely similar, only the white edges of the neon road are more consisten for our method. In the wan generated they appear suddenly and morph towards the end of the video. No video similar to this was used in training.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_60">
+      <div class="card-header">
+        <span class="scene-name" title="A knight in red armor stands in a forest holding a sword.">A knight in red armor stands in a forest holding a sword.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_60')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_60')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_60" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/60_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_60" data-role="ours">
+            <source src="wan_vs_ours_new/ours/60_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_60')">
+          <div class="progress-bar-fill" id="progress-ext_60"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_60">0:00</span>
+          <span id="time-total-ext_60">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The overall scene structure and movement are identical, only the helmet is significantly different. Our method does not penetrate the hand with the sword.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_63">
+      <div class="card-header">
+        <span class="scene-name" title="A green tank moves from left to right in a warehouse.">A green tank moves from left to right in a warehouse.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_63')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_63')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_63" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/63_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_63" data-role="ours">
+            <source src="wan_vs_ours_new/ours/63_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_63')">
+          <div class="progress-bar-fill" id="progress-ext_63"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_63">0:00</span>
+          <span id="time-total-ext_63">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In both videos an extremely similar tank is generated and it drives in a similar scene. Our generation's bachground is significantly more consistent.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_98">
+      <div class="card-header">
+        <span class="scene-name" title="The video captures a lively car show taking place in a city square. The scene is filled with a variety of luxury cars, including a striking red sports car and a sleek black SUV, all parked in a row. The cars are the main focus of the video, showcasing their unique designs and colors.  In the background, a large white building with a dome stands tall, adding an architectural element to the scene. The building's grandeur contrasts with the modernity of the cars, creating a blend of old and new.  The video is shot from a high angle, providing a bird's eye view of the event. This perspective allows for a comprehensive view of the cars and the building, as well as the people milling about in the background. The high angle shot also emphasizes the scale of the event and the number of attendees.  Overall, the video is a dynamic snapshot of a car show, capturing the excitement and glamour of the event. The combination of luxury cars, architectural beauty, and bustling activity creates a vibrant and engaging scene.">The video captures a lively car show taking place in a city square. The scene is filled with a variety of luxury cars...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_98')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_98')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_98" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/98_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_98" data-role="ours">
+            <source src="wan_vs_ours_new/ours/98_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_98')">
+          <div class="progress-bar-fill" id="progress-ext_98"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_98">0:00</span>
+          <span id="time-total-ext_98">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">Both scenes show similar cars and a similar background. However, our method correctly optimized the unrealistic car movement and kept the good pedestrian movement.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_103">
+      <div class="card-header">
+        <span class="scene-name" title="A person in white gloves decorates cupcakes, some shaped like mice.">A person in white gloves decorates cupcakes, some shaped like mice.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_103')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_103')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_103" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/103_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_103" data-role="ours">
+            <source src="wan_vs_ours_new/ours/103_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_103')">
+          <div class="progress-bar-fill" id="progress-ext_103"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_103">0:00</span>
+          <span id="time-total-ext_103">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The baseline fails to keep the background consistent. Two cupcakes in the background disappear. While the layout is kept the appearance of the cupcakes is not.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_107">
+      <div class="card-header">
+        <span class="scene-name" title="A bearded man in a gray apron cuts food in a kitchen.">A bearded man in a gray apron cuts food in a kitchen.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_107')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_107')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_107" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/107_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_107" data-role="ours">
+            <source src="wan_vs_ours_new/ours/107_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_107')">
+          <div class="progress-bar-fill" id="progress-ext_107"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_107">0:00</span>
+          <span id="time-total-ext_107">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The baseline generates strong distortions of the subject and the objecd being cut in the beginning. Our method keeps the appearance of the objects and the subject consistent. The overall scene is extremely similar keeping identities and scene structure in tact.</div>
+    </div>
+
+
+    <div class="comparison-card" data-scene="ext_149">
+      <div class="card-header">
+        <span class="scene-name" title="A vibrant scene at an amusement park during dusk.">A vibrant scene at an amusement park during dusk.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_149')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_149')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_149" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/149_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_149" data-role="ours">
+            <source src="wan_vs_ours_new/ours/149_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_149')">
+          <div class="progress-bar-fill" id="progress-ext_149"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_149">0:00</span>
+          <span id="time-total-ext_149">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline video there are strong temporal artifacts in the background. Our's does not exhibit this failure. However the overall scene is changed by our optimization and people vanishing in the large crowd is also not totally eliminated.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_173">
+      <div class="card-header">
+        <span class="scene-name" title="Fireworks burst in the night sky above a crowd of people.">Fireworks burst in the night sky above a crowd of people.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_173')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_173')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_173" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/173_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_173" data-role="ours">
+            <source src="wan_vs_ours_new/ours/173_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_173')">
+          <div class="progress-bar-fill" id="progress-ext_173"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_173">0:00</span>
+          <span id="time-total-ext_173">0:00</span>
+        </div>
+      </div>
+      <div class="annotation"> The fireworks flicker in the baseline video. Our method keeps the fireworks consistent and natural. No video similar to this was seen during training.</div>
+    </div>
+
+
+    <div class="comparison-card" data-scene="ext_196">
+      <div class="card-header">
+        <span class="scene-name" title="The video features a stylized animated character, a fox-like creature with blue eyes and a gray and white fur pattern. The character is wearing a black and yellow outfit with a red scarf, and it is equipped with a large, futuristic hammer. The character is in a dynamic pose, suggesting movement and action. The background is a dark, industrial setting with glowing lights and machinery, giving the impression of a high-tech or futuristic environment. The overall style of the video is reminiscent of a video game or animated film, with a focus on action and character design.">The video features a stylized animated character, a fox-like creature with blue eyes and a gray and white fur pattern...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_196')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_196')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_196" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/196_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_196" data-role="ours">
+            <source src="wan_vs_ours_new/ours/196_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_196')">
+          <div class="progress-bar-fill" id="progress-ext_196"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_196">0:00</span>
+          <span id="time-total-ext_196">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The transition between poses of the baseline video exhibits strong deformation beyond recognition. Our method keeps the character consistent and overall scene structure and momvemen idea while making it consistent. There are no videos like this in the training data.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_222">
+      <div class="card-header">
+        <span class="scene-name" title="A 3D animated bear sings into a microphone on a stage for an audience of animals.">A 3D animated bear sings into a microphone on a stage for an audience of animals.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_222')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_222')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_222" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/222_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_222" data-role="ours">
+            <source src="wan_vs_ours_new/ours/222_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_222')">
+          <div class="progress-bar-fill" id="progress-ext_222"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_222">0:00</span>
+          <span id="time-total-ext_222">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline video, another microphone appears in the hand of the bear and the eyes of the small yellow animal flicker and morph. Our method eliminates the issue with the additional microphone and the reduces thes issues of the eyes. No animated data was seen in the training.
+      </div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_339">
+      <div class="card-header">
+        <span class="scene-name" title="In the depths of the ocean, a sea turtle gracefully swims above a vibrant coral reef. The turtle, with its hues of green and brown, is the centerpiece of this underwater scene. Its head and front flippers are visible, suggesting movement through the water.   The coral reef, teeming with life, is a spectacle in itself. It's a riot of colors, predominantly blue and green, with patches of red and yellow adding to the diversity. The reef appears to be home to several fish, their silhouettes visible against the backdrop of the deep blue ocean.   The turtle's position in the center of the scene draws the viewer's attention, while the surrounding fish and coral reef add depth and context to the scene. The scene captures a moment of tranquility and beauty in the vast expanse of the ocean.">In the depths of the ocean, a sea turtle gracefully swims above a vibrant coral reef. The turtle, with its hues of gr...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_339')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_339')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_339" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/339_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_339" data-role="ours">
+            <source src="wan_vs_ours_new/ours/339_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_339')">
+          <div class="progress-bar-fill" id="progress-ext_339"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_339">0:00</span>
+          <span id="time-total-ext_339">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline fishes disappear into the background. Our method keeps the fishes in the foreground and makes them consistent. The identity, movement and structure are largely kept and no underwater scenes where seen during training.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_348">
+      <div class="card-header">
+        <span class="scene-name" title="A silver sports car moves along a gravel driveway in front of a brick house.">A silver sports car moves along a gravel driveway in front of a brick house.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_348')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_348')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_348" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/348_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_348" data-role="ours">
+            <source src="wan_vs_ours_new/ours/348_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_348')">
+          <div class="progress-bar-fill" id="progress-ext_348"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_348">0:00</span>
+          <span id="time-total-ext_348">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The car in the baseline video strongly morphs during the parking process while it drives in smoothly in our generated video. The camera movement and scene structure are largely preserved.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_105">
+      <div class="card-header">
+        <span class="scene-name" title="A black Audi sits in a parking lot. It has silver rims and a rear wing. The camera pans right.">A black Audi sits in a parking lot. It has silver rims and a rear wing. The camera pans right.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_105')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_105')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_105" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/105_noise3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_105" data-role="ours">
+            <source src="wan_vs_ours_new/ours/105_noise3.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_105')">
+          <div class="progress-bar-fill" id="progress-ext_105"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_105">0:00</span>
+          <span id="time-total-ext_105">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The baseline generates a shaky video in which fore and bachground are largely changed. Ours stays consistent. The identity of the car and some parts of the scene layout are kept.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_104">
+      <div class="card-header">
+        <span class="scene-name" title="A red Mustang convertible drives down a road. The driver wears a hat. The camera pans right.">A red Mustang convertible drives down a road. The driver wears a hat. The camera pans right.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_104')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_104')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_104" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/104_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_104" data-role="ours">
+            <source src="wan_vs_ours_new/ours/104_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_104')">
+          <div class="progress-bar-fill" id="progress-ext_104"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_104">0:00</span>
+          <span id="time-total-ext_104">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline the car is morphing when the perspective changes. This does not happen in our generated video. However both struggle with the hand intersection. The overall identity and movement are preserved.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_87">
+      <div class="card-header">
+        <span class="scene-name" title="The camera moves around a man with a beard, hat, black shirt, and green vest. He stands in a green forest.">The camera moves around a man with a beard, hat, black shirt, and green vest. He stands in a green forest.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_87')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_87')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_87" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/87_noise4.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_87" data-role="ours">
+            <source src="wan_vs_ours_new/ours/87_noise4.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_87')">
+          <div class="progress-bar-fill" id="progress-ext_87"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_87">0:00</span>
+          <span id="time-total-ext_87">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the wan video, there are strong initial inconsistencies in the foreground. Later, the bachground also is not stable. The identity, movement and structure are preserved in our generated video.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_74">
+      <div class="card-header">
+        <span class="scene-name" title="The video explores the interior of a grand building, starting with a view of a high-beamed ceiling with colorful tiles and a chandelier above a staircase. as the camera moves, it reveals moorish architectural details, including ornate wooden beams, arched doorways, and a grand chandelier. the ambiance is warm and inviting, with soft lighting enhancing the historical elegance. a palm tree and a reception desk with a wooden counter and informational sign are introduced, suggesting a blend of historical and modern elements. the video concludes with a tranquil scene of the building's entrance, highlighting its ornate double doors and the surrounding decorative elements.">The video explores the interior of a grand building, starting with a view of a high-beamed ceiling with colorful tile...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_74')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_74')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_74" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/74_noise4.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_74" data-role="ours">
+            <source src="wan_vs_ours_new/ours/74_noise4.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_74')">
+          <div class="progress-bar-fill" id="progress-ext_74"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_74">0:00</span>
+          <span id="time-total-ext_74">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">The scene bachground morphs in the wan video. In our video the background is stable and the identity and movement are preserved. The camera movement is slightly simplified, excluding the most problematic part.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_60e">
+      <div class="card-header">
+        <span class="scene-name" title="The video takes us through a spacious, well-lit classroom filled with natural light, showcasing a variety of educational materials and decorations. initially, the room features a central table with art supplies, surrounded by wooden shelves with books and toys, and a piano. as we move through the space, we see a piano, a table with children's artwork, and a bookshelf with books and trinkets. the room is adorned with greenery, stars, and a clock, creating a warm, inviting atmosphere for learning. throughout, the room is consistently bright, with a polished wooden floor, colorful artwork, and a serene environment conducive to creativity and learning.">The video takes us through a spacious, well-lit classroom filled with natural light, showcasing a variety of educatio...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_60e')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_60e')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_60e" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/60_noise2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_60e" data-role="ours">
+            <source src="wan_vs_ours_new/ours/60_noise2.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_60e')">
+          <div class="progress-bar-fill" id="progress-ext_60e"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_60e">0:00</span>
+          <span id="time-total-ext_60e">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline video the lights on the top morph as the camera moves fowrward. This is not the case for our video. The general scene layout is kept.</div>
+    </div>
+  
+    <div class="comparison-card" data-scene="ext_96">
+      <div class="card-header">
+        <span class="scene-name" title="An aerial view of a majestic castle-like structure nestled in the heart of a verdant forest. The building, painted in hues of white and gray, stands out against the lush greenery that surrounds it. Its red roof adds a vibrant splash of color to the otherwise monochromatic palette.  The castle-like structure is characterized by multiple towers and turrets, each intricately designed and adding to the overall grandeur of the building. The architecture suggests a blend of traditional and modern styles, creating a unique aesthetic that is both timeless and contemporary.  The building is enveloped by a dense forest, with trees of varying heights and shades of green filling the background. The forest appears to be well-maintained, providing a serene and secluded atmosphere around the castle-like structure.  Despite the detailed description, the scene does not contain any discernible text or specific actions being performed by objects. The relative positions of the objects remain constant, with the castle-like structure as the central focus, surrounded by the forest. The scene does not provide any information that allows for a precise count of the objects within the scene. The description is based solely on the visible content of the scene, without any added imagination or aesthetic interpretation.">An aerial view of a majestic castle-like structure nestled in the heart of a verdant forest. The building, painted in...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_96')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_96')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_96" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/96_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_96" data-role="ours">
+            <source src="wan_vs_ours_new/ours/96_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_96')">
+          <div class="progress-bar-fill" id="progress-ext_96"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_96">0:00</span>
+          <span id="time-total-ext_96">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the baseline one can observe how the front wall is slowly compressed horizontally and the right tower top moves to the left. This is not the case for our video. This sample shows that even small problems are optimized.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="ext_177">
+      <div class="card-header">
+        <span class="scene-name" title="The video shows a vintage car with a flame-painted body, driving down a gravel road. The car has large white-walled tires and a black roof. The car is moving from left to right across the frame. The road is surrounded by lush greenery and trees, and there is a wooden building in the background. The car's design and the surrounding environment suggest a sense of nostalgia and adventure.">The video shows a vintage car with a flame-painted body, driving down a gravel road. The car has large white-walled t...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('ext_177')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('ext_177')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="ext_177" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/177_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="ext_177" data-role="ours">
+            <source src="wan_vs_ours_new/ours/177_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'ext_177')">
+          <div class="progress-bar-fill" id="progress-ext_177"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-ext_177">0:00</span>
+          <span id="time-total-ext_177">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">We can observe that the wind shield wipers are not consistent in the wan video. In our video they are completey removed and only the reflection is visible on the glas. The overall scene is very similar showing that the method optimizes even small inconsistenscies.</div>
+    </div>
+
+  </section>
+
+  <!-- Section 4: Failure Cases -->
+  <section class="section">
+    <div class="section-title">Failure Cases</div>
+    <div class="section-subtitle">Examples where our method's improvements might be unwanted or ineffective</div>
+
+    <div class="comparison-card" data-scene="fail_150">
+      <div class="card-header">
+        <span class="scene-name" title="A brown bear stands on its hind legs, reaching for a brown circus tent.">A brown bear stands on its hind legs, reaching for a brown circus tent.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('fail_150')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('fail_150')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="fail_150" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/150_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="fail_150" data-role="ours">
+            <source src="wan_vs_ours_new/ours/150_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'fail_150')">
+          <div class="progress-bar-fill" id="progress-fail_150"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-fail_150">0:00</span>
+          <span id="time-total-fail_150">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the wan video, the tent moves. In general this is a plausible motion of cloth-like object. However, in this specfic video it is inconsistent with the non-existent wind as shown by the grass and trees.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="fail_269">
+      <div class="card-header">
+        <span class="scene-name" title="Snow-covered mountains under a starry night sky with the Milky Way. A green tent sits in the foreground.">Snow-covered mountains under a starry night sky with the Milky Way. A green tent sits in the foreground.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('fail_269')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('fail_269')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="fail_269" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/269_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="fail_269" data-role="ours">
+            <source src="wan_vs_ours_new/ours/269_noise1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'fail_269')">
+          <div class="progress-bar-fill" id="progress-fail_269"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-fail_269">0:00</span>
+          <span id="time-total-fail_269">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">We can observe that the sky in the wan generated video moves. This is in general plausible as the earth rotates. However, this pace is more consistent with a timelapse video than a normal video. Our model method penalizes this.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="fail_78">
+      <div class="card-header">
+        <span class="scene-name" title="A series of murals in a modern, minimalist room with a reflective floor and white walls. the murals, vibrant and colorful, depict urban landscapes with bridges, skyscrapers, and hot air balloons, interspersed with chinese characters. the scenes transition from a child-like artistic style to a more abstract and surreal interpretation of a cityscape, with elements like a ferris wheel and a hot air balloon. the room is well-lit, with a green exit sign and a solitary black stool adding to the ambiance. the video concludes with a mural that includes a hot air balloon and a ferris wheel, with the text 'bilibili' suggesting a connection to a media platform.">A series of murals in a modern, minimalist room with a reflective floor and white walls. the murals, vibrant and colo...</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('fail_78')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('fail_78')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="fail_78" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/78_noise3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="fail_78" data-role="ours">
+            <source src="wan_vs_ours_new/ours/78_noise3.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'fail_78')">
+          <div class="progress-bar-fill" id="progress-fail_78"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-fail_78">0:00</span>
+          <span id="time-total-fail_78">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">We can observe that the wall of the wan video morphes and moves strongly. But it happens at a smaller scale with ours as well. The issue is that the error only happens at a single point in time, so it is hard to penalize as we simply average over the video length.</div>
+    </div>
+
+    <div class="comparison-card" data-scene="fail_146">
+      <div class="card-header">
+        <span class="scene-name" title="In the vast expanse of the azure sky, two hot air balloons are gracefully soaring.">In the vast expanse of the azure sky, two hot air balloons are gracefully soaring.</span>
+        <div class="card-controls">
+          <button class="card-btn" onclick="togglePair('fail_146')">⏯ Play / Pause</button>
+          <button class="card-btn" onclick="restartPair('fail_146')">↺ Restart</button>
+        </div>
+      </div>
+      <div class="video-pair">
+        <div class="video-side baseline-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Wan</div>
+          <video muted loop autoplay playsinline data-pair="fail_146" data-role="baseline">
+            <source src="wan_vs_ours_new/wan/146_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-divider"></div>
+        <div class="video-side ours-side">
+          <div class="method-tag"></div>
+          <div class="method-label">Ours</div>
+          <video muted loop autoplay playsinline data-pair="fail_146" data-role="ours">
+            <source src="wan_vs_ours_new/ours/146_noise0.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar-bg" onclick="seekPair(event, 'fail_146')">
+          <div class="progress-bar-fill" id="progress-fail_146"></div>
+        </div>
+        <div class="progress-time">
+          <span id="time-current-fail_146">0:00</span>
+          <span id="time-total-fail_146">0:00</span>
+        </div>
+      </div>
+      <div class="annotation">In the wan video two baloons appear, while in our video only one appears from thin air. The overall sceme is extxemely similar. While it shows that our method explicitly optimizes the consistency it shows that it does not always make it fully consistent.</div>
     </div>
   </section>
 
@@ -652,7 +1624,7 @@
 
   <script>
     // ── Pairs registry ──
-    const pairIds = ['teaser', 'car_wan', 'woman_wan', 'surfer_wan', 'guy_wan', 'gear_wan', 'dog_park', 'hut'];
+    const pairIds = ['teaser', 'car_wan', 'woman_wan', 'surfer_wan', 'guy_wan', 'gear_wan', 'dog_park', 'hut', 'plate', 'water_glass', 'ext_1', 'ext_60', 'ext_63', 'ext_96', 'ext_98', 'ext_103', 'ext_107', 'ext_149', 'ext_173', 'ext_177', 'ext_196', 'ext_222', 'ext_339', 'ext_348', 'ext_105', 'ext_104', 'ext_87', 'ext_74', 'ext_60e', 'fail_150', 'fail_269', 'fail_78', 'fail_146'];
 
     function getVideos(pairId) {
       return document.querySelectorAll(`video[data-pair="${pairId}"]`);
@@ -670,7 +1642,7 @@
       return `${m}:${sec.toString().padStart(2, '0')}`;
     }
 
-    // ── Sync: whenever the baseline video fires timeupdate, sync ours ──
+    // ── Sync: use shorter video duration as loop point ──
     function setupSync() {
       pairIds.forEach(pairId => {
         const videos = getVideos(pairId);
@@ -679,7 +1651,35 @@
         const baseline = videos[0];
         const ours = videos[1];
 
+        // Remove native loop; we handle looping manually
+        baseline.removeAttribute('loop');
+        ours.removeAttribute('loop');
+
+        // Once both videos have metadata, determine the shorter duration
+        let minDur = Infinity;
+        let ready = 0;
+        function onMeta() {
+          ready++;
+          if (ready >= 2) {
+            minDur = Math.min(baseline.duration, ours.duration);
+          }
+        }
+        if (baseline.readyState >= 1) { ready++; } else { baseline.addEventListener('loadedmetadata', onMeta, { once: true }); }
+        if (ours.readyState >= 1) { ready++; } else { ours.addEventListener('loadedmetadata', onMeta, { once: true }); }
+        if (ready >= 2 && baseline.duration && ours.duration) {
+          minDur = Math.min(baseline.duration, ours.duration);
+        }
+
         baseline.addEventListener('timeupdate', () => {
+          // If we've reached the shorter video's end, restart both
+          if (minDur < Infinity && baseline.currentTime >= minDur - 0.08) {
+            baseline.currentTime = 0;
+            ours.currentTime = 0;
+            baseline.play().catch(() => {});
+            ours.play().catch(() => {});
+            return;
+          }
+
           // Sync ours to baseline
           const diff = Math.abs(baseline.currentTime - ours.currentTime);
           if (diff > 0.15) {
@@ -690,17 +1690,21 @@
           const fill = document.getElementById(`progress-${pairId}`);
           const curEl = document.getElementById(`time-current-${pairId}`);
           const totEl = document.getElementById(`time-total-${pairId}`);
-          if (fill && baseline.duration) {
-            fill.style.width = `${(baseline.currentTime / baseline.duration) * 100}%`;
+          const displayDur = minDur < Infinity ? minDur : baseline.duration;
+          if (fill && displayDur) {
+            fill.style.width = `${(baseline.currentTime / displayDur) * 100}%`;
           }
           if (curEl) curEl.textContent = fmt(baseline.currentTime);
-          if (totEl) totEl.textContent = fmt(baseline.duration);
+          if (totEl) totEl.textContent = fmt(displayDur);
         });
 
-        // When baseline loops, also restart ours to keep sync tight
-        baseline.addEventListener('seeked', () => {
-          if (baseline.currentTime < 0.1) {
+        // Also watch ours in case it reaches the end first
+        ours.addEventListener('timeupdate', () => {
+          if (minDur < Infinity && ours.currentTime >= minDur - 0.08) {
+            baseline.currentTime = 0;
             ours.currentTime = 0;
+            baseline.play().catch(() => {});
+            ours.play().catch(() => {});
           }
         });
       });
