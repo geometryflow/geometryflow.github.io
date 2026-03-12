@@ -221,6 +221,12 @@
       display: block;
     }
 
+    /* Center-crop REPA baseline videos (720×480) to match ours (832×480) */
+    #section-repa .baseline-side video {
+      aspect-ratio: 832 / 480;
+      object-fit: cover;
+    }
+
     .video-side .method-tag {
       position: absolute;
       top: 0;
@@ -645,7 +651,7 @@
   <!-- Section 2: REPA vs Ours -->
   <section class="section" id="section-repa">
     <div class="section-title">REPA vs. Ours</div>
-    <div class="section-subtitle">Comparing the REPA baseline with our method on the test set</div>
+    <div class="section-subtitle">Comparing the REPA baseline with our method on the test set. Videos are cropped and cut to align for better comparison.</div>
 
     <!-- Dog Park -->
     <div class="comparison-card" data-scene="dog_park">
