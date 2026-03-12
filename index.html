@@ -14,6 +14,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: #f8f9fa;
       font-family: 'Times New Roman', Times, serif;
@@ -117,6 +121,7 @@
       max-width: 1300px;
       margin: 0 auto;
       padding: 40px 32px 20px;
+      scroll-margin-top: 100px;
     }
 
     .section-title {
@@ -298,6 +303,42 @@
       margin-top: 4px;
     }
 
+    /* ── Section Nav ── */
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 32px;
+      background: #fafafa;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 64px;
+      z-index: 99;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: #666;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      background: #1565c0;
+      color: #fff;
+      border-color: #1565c0;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(21, 101, 192, 0.25);
+    }
+
     /* ── Footer ── */
     .page-footer {
       text-align: center;
@@ -344,7 +385,7 @@
   <!-- Header -->
   <header class="page-header">
     <h1>Qualitative Video Comparison</h1>
-    <p>Side-by-side comparison of generated videos. Baseline methods on the left, our method on the right. All videos are synchronized for direct comparison.</p>
+    <p>Side-by-side comparison of generated videos. Baseline methods on the left, our method on the right. All videos are synchronized (same initial noise where applicable) for direct comparison.</p>
   </header>
 
   <!-- Global Controls -->
@@ -353,8 +394,17 @@
     <button class="ctrl-btn restart" onclick="restartAll()">↺ Restart All</button>
   </div>
 
+  <!-- Section Nav -->
+  <nav class="section-nav">
+    <a class="nav-link" href="#section-teaser">Teaser</a>
+    <a class="nav-link" href="#section-wan">Wan vs. Ours</a>
+    <a class="nav-link" href="#section-repa">REPA vs. Ours</a>
+    <a class="nav-link" href="#section-extended">Extended Wan vs. Ours</a>
+    <a class="nav-link" href="#section-failures">Failure Cases</a>
+  </nav>
+
   <!-- Section 0: Teaser -->
-  <section class="section">
+  <section class="section" id="section-teaser">
     <div class="section-title">Teaser</div>
     <div class="section-subtitle">Featured comparison</div>
 
@@ -392,12 +442,12 @@
           <span id="time-total-teaser">0:00</span>
         </div>
       </div>
-      <div class="annotation">We can observe that Wan produces initial strong distortions of both background and the foreground object. Observe for example the cow patterned car in the back and the face and helmet of the cyclist. Over the course of the video the background rapidly changes at an implausible speed. In contrast, the main subject is preserved over the entire video and the background is consistent.</div>
+      <div class="annotation">We can observe that Wan produces initial strong distortions of both background and the foreground object. Observe for example the cow patterned car in the back and the face and helmet of the cyclist. Over the course of the video the background rapidly changes at an implausible speed. In contrast, in our video the main subject is preserved over the entire video and the background is consistent.</div>
     </div>
   </section>
 
   <!-- Section 1: Wan vs Ours -->
-  <section class="section">
+  <section class="section" id="section-wan">
     <div class="section-title">Wan vs. Ours</div>
     <div class="section-subtitle">Comparing the Wan baseline with our method across test scenes</div>
 
@@ -436,7 +486,7 @@
           <span id="time-total-car_wan">0:00</span>
         </div>
       </div>
-      <div class="annotation">We can see in the wan video that in the initial frames the car switches from a convertible to a coupe. (See top). Then in the end, a sign appears and disappears and the scene is distorted heavily. In contrast, our method preserves the car and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
+      <div class="annotation">We can see in the Wan video that in the initial frames the car switches from a convertible to a coupe. (See top). Then in the end, a sign appears and disappears and the scene is distorted heavily. In contrast, our method preserves the car and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
     </div>
 
     <!-- Woman -->
@@ -474,7 +524,7 @@
           <span id="time-total-woman_wan">0:00</span>
         </div>
       </div>
-      <div class="annotation">The wan generated video suffers from strong inconsistencies of the main subject. In contrast, our method preserves the main subject and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
+      <div class="annotation">The Wan generated video suffers from strong inconsistencies of the main subject. In contrast, our method preserves the main subject and the background. Additionally, we can observe a very similar identity, camera motion and general scene structure between the two videos. This indicates that our method effectively improves the consistency.</div>
     </div>
 
     <!-- Surfer -->
@@ -512,7 +562,7 @@
           <span id="time-total-surfer_wan">0:00</span>
         </div>
       </div>
-      <div class="annotation">The wan generated video produces strong artifacts when the surfer moves the surfboard. In contrast, our method does not have issues with the surfboard. Additionally, we can observe a similar identity and general scene structure between the two videos.</div>
+      <div class="annotation">The Wan generated video produces strong artifacts when the surfer moves the surfboard. In contrast, our method does not have issues with the surfboard. Additionally, we can observe a similar identity and general scene structure between the two videos.</div>
     </div>
 
     <!-- Guy -->
@@ -550,7 +600,7 @@
           <span id="time-total-guy_wan">0:00</span>
         </div>
       </div>
-      <div class="annotation">The wan generated video distorts the face of the man when he turns his head. In contrast, our method preserves the face of the man. The overall identities are similar but the camera motion is not as well preserved as in previous examples.</div>
+      <div class="annotation">The Wan generated video distorts the face of the man when he turns his head. In contrast, our method preserves the face of the man. The overall identities are similar but the camera motion is not as well preserved as in previous examples.</div>
     </div>
 
     <!-- Gear -->
@@ -588,12 +638,12 @@
           <span id="time-total-gear_wan">0:00</span>
         </div>
       </div>
-      <div class="annotation">The wan generated video suffers from strong artifacts when the gears rotate. In contrast, our method preserves the gears and the background. This video shows that our method optimized towards a different identity but still similar motion and scene structure.</div>
+      <div class="annotation">The Wan generated video suffers from strong artifacts when the gears rotate. In contrast, our method preserves the gears and the background. This video shows that our method optimized towards a different identity but still similar motion and scene structure.</div>
     </div>
   </section>
 
   <!-- Section 2: REPA vs Ours -->
-  <section class="section">
+  <section class="section" id="section-repa">
     <div class="section-title">REPA vs. Ours</div>
     <div class="section-subtitle">Comparing the REPA baseline with our method on the test set</div>
 
@@ -632,7 +682,7 @@
           <span id="time-total-dog_park">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the repa generated video the dog disappears when it runs behind the tree. In contrast, our method preserves the dog.</div>
+      <div class="annotation">In the REPA generated video the dog disappears when it runs behind the tree. In contrast, our method preserves the dog.</div>
     </div>
 
     <!-- Hut -->
@@ -670,7 +720,7 @@
           <span id="time-total-hut">0:00</span>
         </div>
       </div>
-      <div class="annotation">The repa generated video the structure of the railing is intersecting with birds leading to severe artifacts.</div>
+      <div class="annotation">In the REPA generated video, the structure of the railing is intersecting with birds leading to severe artifacts.</div>
     </div>
 
 
@@ -709,7 +759,7 @@
           <span id="time-total-plate">0:00</span>
         </div>
       </div>
-      <div class="annotation">The repa video introduces strong deformations of the contents on the plate. Both methods do not produce a video following the prompt exactly. We observed</div>
+      <div class="annotation">The REPA video introduces strong deformations of the contents on the plate. Both methods do not produce a video following the prompt exactly.</div>
     </div>
 
     <!-- Water Glass -->
@@ -747,14 +797,14 @@
           <span id="time-total-water_glass">0:00</span>
         </div>
       </div>
-      <div class="annotation">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      <div class="annotation">We can observe strong distortions in the REPA video while our video is quite consistent.</div>
     </div>
   </section>
 
   <!-- Section 3: Extended Wan vs Ours -->
-  <section class="section">
+  <section class="section" id="section-extended">
     <div class="section-title">Extended Wan vs. Ours</div>
-    <div class="section-subtitle">Additional comparisons across more prompts and in partcular many out of distribution prompts</div>
+    <div class="section-subtitle">Additional comparisons across more prompts and in particular many out of distribution prompts</div>
 
     <div class="comparison-card" data-scene="ext_1">
       <div class="card-header">
@@ -790,7 +840,7 @@
           <span id="time-total-ext_1">0:00</span>
         </div>
       </div>
-      <div class="annotation">Bothe exampler look extremely similar, only the white edges of the neon road are more consisten for our method. In the wan generated they appear suddenly and morph towards the end of the video. No video similar to this was used in training.</div>
+      <div class="annotation">Both examples look extremely similar, only the white edges of the neon road are more consistent for our method. In the Wan generated video they appear suddenly and morph towards the end of the video. No video similar to this was used in training.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_60">
@@ -864,7 +914,7 @@
           <span id="time-total-ext_63">0:00</span>
         </div>
       </div>
-      <div class="annotation">In both videos an extremely similar tank is generated and it drives in a similar scene. Our generation's bachground is significantly more consistent.</div>
+      <div class="annotation">In both videos an extremely similar tank is generated and it drives in a similar scene. Our generation's background is significantly more consistent.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_98">
@@ -975,7 +1025,7 @@
           <span id="time-total-ext_107">0:00</span>
         </div>
       </div>
-      <div class="annotation">The baseline generates strong distortions of the subject and the objecd being cut in the beginning. Our method keeps the appearance of the objects and the subject consistent. The overall scene is extremely similar keeping identities and scene structure in tact.</div>
+      <div class="annotation">The baseline generates strong distortions of the subject and the object being cut in the beginning. Our method keeps the appearance of the objects and the subject consistent. The overall scene is extremely similar keeping identities and scene structure intact.</div>
     </div>
 
 
@@ -1013,7 +1063,7 @@
           <span id="time-total-ext_149">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the baseline video there are strong temporal artifacts in the background. Our's does not exhibit this failure. However the overall scene is changed by our optimization and people vanishing in the large crowd is also not totally eliminated.</div>
+      <div class="annotation">In the baseline video there are strong temporal artifacts in the background. Ours does not exhibit this failure. However the overall scene is changed by our optimization and people vanishing in the large crowd is also not totally eliminated.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_173">
@@ -1088,7 +1138,7 @@
           <span id="time-total-ext_196">0:00</span>
         </div>
       </div>
-      <div class="annotation">The transition between poses of the baseline video exhibits strong deformation beyond recognition. Our method keeps the character consistent and overall scene structure and momvemen idea while making it consistent. There are no videos like this in the training data.</div>
+      <div class="annotation">The transition between poses of the baseline video exhibits strong deformation beyond recognition. Our method keeps the character consistent and overall scene structure and movement idea while making it consistent. There are no videos like this in the training data.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_222">
@@ -1125,7 +1175,7 @@
           <span id="time-total-ext_222">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the baseline video, another microphone appears in the hand of the bear and the eyes of the small yellow animal flicker and morph. Our method eliminates the issue with the additional microphone and the reduces thes issues of the eyes. No animated data was seen in the training.
+      <div class="annotation">In the baseline video, another microphone appears in the hand of the bear and the eyes of the small yellow animal flicker and morph. Our method eliminates the issue with the additional microphone and reduces the issues of the eyes. No animated data was seen in the training.
       </div>
     </div>
 
@@ -1163,7 +1213,7 @@
           <span id="time-total-ext_339">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the baseline fishes disappear into the background. Our method keeps the fishes in the foreground and makes them consistent. The identity, movement and structure are largely kept and no underwater scenes where seen during training.</div>
+      <div class="annotation">In the baseline, fish disappear into the background. Our method keeps the fish in the foreground and makes them consistent. The identity, movement and structure are largely kept and no underwater scenes were seen during training.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_348">
@@ -1237,7 +1287,7 @@
           <span id="time-total-ext_105">0:00</span>
         </div>
       </div>
-      <div class="annotation">The baseline generates a shaky video in which fore and bachground are largely changed. Ours stays consistent. The identity of the car and some parts of the scene layout are kept.</div>
+      <div class="annotation">The baseline generates a shaky video in which fore- and background are largely changed. Ours stays consistent. The identity of the car and some parts of the scene layout are kept.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_104">
@@ -1311,7 +1361,7 @@
           <span id="time-total-ext_87">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the wan video, there are strong initial inconsistencies in the foreground. Later, the bachground also is not stable. The identity, movement and structure are preserved in our generated video.</div>
+      <div class="annotation">In the Wan video, there are strong initial inconsistencies in the foreground. Later, the background also is not stable. The identity, movement and structure are preserved in our generated video.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_74">
@@ -1348,7 +1398,7 @@
           <span id="time-total-ext_74">0:00</span>
         </div>
       </div>
-      <div class="annotation">The scene bachground morphs in the wan video. In our video the background is stable and the identity and movement are preserved. The camera movement is slightly simplified, excluding the most problematic part.</div>
+      <div class="annotation">The scene background morphs in the Wan video. In our video the background is stable and the identity and movement are preserved. The camera movement is slightly simplified, excluding the most problematic part.</div>
     </div>
 
     <div class="comparison-card" data-scene="ext_60e">
@@ -1385,7 +1435,7 @@
           <span id="time-total-ext_60e">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the baseline video the lights on the top morph as the camera moves fowrward. This is not the case for our video. The general scene layout is kept.</div>
+      <div class="annotation">In the baseline video the lights on the top morph as the camera moves forward. This is not the case for our video. The general scene layout is kept.</div>
     </div>
   
     <div class="comparison-card" data-scene="ext_96">
@@ -1459,13 +1509,13 @@
           <span id="time-total-ext_177">0:00</span>
         </div>
       </div>
-      <div class="annotation">We can observe that the wind shield wipers are not consistent in the wan video. In our video they are completey removed and only the reflection is visible on the glas. The overall scene is very similar showing that the method optimizes even small inconsistenscies.</div>
+      <div class="annotation">We can observe that the windshield wipers are not consistent in the Wan video. In our video they are completely removed and only the reflection is visible on the glass. The overall scene is very similar showing that the method optimizes even small inconsistencies.</div>
     </div>
 
   </section>
 
   <!-- Section 4: Failure Cases -->
-  <section class="section">
+  <section class="section" id="section-failures">
     <div class="section-title">Failure Cases</div>
     <div class="section-subtitle">Examples where our method's improvements might be unwanted or ineffective</div>
 
@@ -1503,7 +1553,7 @@
           <span id="time-total-fail_150">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the wan video, the tent moves. In general this is a plausible motion of cloth-like object. However, in this specfic video it is inconsistent with the non-existent wind as shown by the grass and trees.</div>
+      <div class="annotation">In the wan video, the tent moves. In general this is a plausible motion of cloth-like object. However, in this specific video it is inconsistent with the non-existent wind as shown by the grass and trees.</div>
     </div>
 
     <div class="comparison-card" data-scene="fail_269">
@@ -1540,7 +1590,7 @@
           <span id="time-total-fail_269">0:00</span>
         </div>
       </div>
-      <div class="annotation">We can observe that the sky in the wan generated video moves. This is in general plausible as the earth rotates. However, this pace is more consistent with a timelapse video than a normal video. Our model method penalizes this.</div>
+      <div class="annotation">We can observe that the sky in the wan generated video moves. This is in general plausible as the earth rotates. However, this pace is more consistent with a timelapse video than a normal video. Our method penalizes this.</div>
     </div>
 
     <div class="comparison-card" data-scene="fail_78">
@@ -1577,7 +1627,7 @@
           <span id="time-total-fail_78">0:00</span>
         </div>
       </div>
-      <div class="annotation">We can observe that the wall of the wan video morphes and moves strongly. But it happens at a smaller scale with ours as well. The issue is that the error only happens at a single point in time, so it is hard to penalize as we simply average over the video length.</div>
+      <div class="annotation">We can observe that the wall of the Wan video morphs and moves strongly. But it happens at a smaller scale with ours as well. The issue is that the error only happens at a single point in time, so it is hard to penalize as we simply average over the video length.</div>
     </div>
 
     <div class="comparison-card" data-scene="fail_146">
@@ -1614,7 +1664,7 @@
           <span id="time-total-fail_146">0:00</span>
         </div>
       </div>
-      <div class="annotation">In the wan video two baloons appear, while in our video only one appears from thin air. The overall sceme is extxemely similar. While it shows that our method explicitly optimizes the consistency it shows that it does not always make it fully consistent.</div>
+      <div class="annotation">In the Wan video two balloons appear, while in our video only one appears from thin air. The overall scene is extremely similar. While it shows that our method explicitly optimizes the consistency it shows that it does not always make it fully consistent.</div>
     </div>
   </section>
 
