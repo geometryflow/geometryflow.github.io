@@ -371,10 +371,10 @@ def make_app(
         with gr.Row(equal_height=True):
             with gr.Column():
                 left_label = gr.Markdown()
-                left_video = gr.Video(label=None, autoplay=True)
+                left_video = gr.Video(label=None, autoplay=True, loop=True)
             with gr.Column():
                 right_label = gr.Markdown()
-                right_video = gr.Video(label=None, autoplay=True)
+                right_video = gr.Video(label=None, autoplay=True, loop=True)
 
         with gr.Row():
             left_better = gr.Button("Left is better", variant="primary")
