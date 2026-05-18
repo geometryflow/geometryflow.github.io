@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qualitative Video Comparison</title>
+  <title>GeoFlow: Enforcing Implicit Geometric Consistency in Video Generation</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+    @import url('https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css');
 
     * {
       margin: 0;
@@ -20,54 +22,162 @@
 
     body {
       background: #f8f9fa;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Noto Sans', Arial, sans-serif;
       color: #333;
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* -- Paper header -- */
     .page-header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      padding: 48px 32px 40px;
+      background: #fff;
+      padding: 64px 32px 40px;
       text-align: center;
       position: relative;
       overflow: hidden;
-    }
-
-    .page-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(21, 101, 192, 0.15) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 50%, rgba(198, 40, 40, 0.1) 0%, transparent 60%);
-      pointer-events: none;
+      border-bottom: 1px solid #edf0f3;
     }
 
     .page-header h1 {
-      font-family: 'Inter', sans-serif;
-      font-size: 36px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.5px;
-      margin-bottom: 10px;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: #111;
+      letter-spacing: 0;
+      margin: 0 auto 16px;
+      max-width: 980px;
+      line-height: 1.12;
       position: relative;
     }
 
-    .page-header p {
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.7);
-      font-weight: 300;
-      max-width: 700px;
+    .authors {
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
+      font-size: 18px;
+      color: #222;
+      font-weight: 400;
+      max-width: 980px;
       margin: 0 auto;
-      line-height: 1.6;
+      line-height: 1.55;
       position: relative;
     }
 
-    /* ── Global Controls ── */
+    .authors a {
+      color: hsl(204, 86%, 53%);
+      text-decoration: none;
+    }
+
+    .authors a:hover {
+      text-decoration: underline;
+    }
+
+    .author-block {
+      display: inline-block;
+    }
+
+    .affiliations {
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
+      font-size: 14px;
+      color: #555;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .paper-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0 22px;
+    }
+
+    .paper-link {
+      font-family: 'Noto Sans', Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid #363636;
+      border-radius: 999px;
+      padding: 8px 16px;
+      background: #363636;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.5;
+    }
+
+    .paper-link:hover {
+      background: #111;
+      border-color: #111;
+      transform: translateY(-1px);
+    }
+
+    .paper-link.is-disabled {
+      opacity: 0.42;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .paper-link .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .paper-section {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 44px 32px 4px;
+    }
+
+    .paper-section h2 {
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
+      font-size: 30px;
+      color: #111827;
+      margin-bottom: 14px;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    .abstract-text {
+      font-size: 18px;
+      line-height: 1.72;
+      color: #2f343b;
+      text-align: center;
+    }
+
+    .method-figure {
+      margin-top: 16px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(17, 24, 39, 0.08);
+    }
+
+    .method-figure img {
+      width: 100%;
+      display: block;
+      background: #fff;
+    }
+
+    .method-figure figcaption {
+      padding: 18px 20px 20px;
+      border-top: 1px solid #edf0f3;
+      font-size: 15px;
+      line-height: 1.62;
+      color: #374151;
+    }
+
+    .method-figure figcaption strong {
+      color: #111827;
+    }
+
+    /* -- Global Controls -- */
     .global-controls {
       display: flex;
       justify-content: center;
@@ -82,7 +192,7 @@
     }
 
     .ctrl-btn {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 13px;
       font-weight: 600;
       padding: 8px 24px;
@@ -116,7 +226,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    /* ── Sections ── */
+    /* -- Sections -- */
     .section {
       max-width: 1300px;
       margin: 0 auto;
@@ -125,7 +235,7 @@
     }
 
     .section-title {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 22px;
       font-weight: 700;
       color: #1a1a2e;
@@ -134,7 +244,7 @@
     }
 
     .section-subtitle {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 14px;
       color: #888;
       font-weight: 400;
@@ -144,7 +254,7 @@
     /* ── Comparison Cards ── */
     .comparison-card {
       background: #fff;
-      border-radius: 12px;
+      border-radius: 8px;
       overflow: hidden;
       margin-bottom: 24px;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -166,7 +276,7 @@
     }
 
     .scene-name {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 13px;
       font-weight: 500;
       color: #555;
@@ -189,7 +299,7 @@
     }
 
     .card-btn {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 11px;
       font-weight: 600;
       padding: 4px 12px;
@@ -246,7 +356,7 @@
     .video-side .method-label {
       position: absolute;
       top: 10px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 12px;
       font-weight: 700;
       padding: 3px 10px;
@@ -303,7 +413,7 @@
     .progress-time {
       display: flex;
       justify-content: space-between;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 11px;
       color: #aaa;
       margin-top: 4px;
@@ -324,7 +434,7 @@
     }
 
     .nav-link {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 12px;
       font-weight: 500;
       padding: 5px 14px;
@@ -349,15 +459,18 @@
     .page-footer {
       text-align: center;
       padding: 32px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
       font-size: 13px;
       color: #aaa;
     }
 
-    /* ── Responsive ── */
+    /* -- Responsive -- */
     @media (max-width: 768px) {
-      .page-header h1 { font-size: 26px; }
-      .page-header p { font-size: 14px; }
+      .page-header { padding: 44px 18px 36px; }
+      .page-header h1 { font-size: 30px; }
+      .authors { font-size: 15px; }
+      .paper-section { padding: 32px 18px 0; }
+      .abstract-text { font-size: 16px; }
       .section { padding: 24px 16px 12px; }
       .video-pair { flex-direction: column; }
       .video-divider { width: 100%; height: 2px; }
@@ -390,9 +503,53 @@
 
   <!-- Header -->
   <header class="page-header">
-    <h1>Qualitative Video Comparison</h1>
-    <p>Side-by-side comparison of generated videos. Baseline methods on the left, our method on the right. All videos are synchronized (same initial noise where applicable) for direct comparison.</p>
+    <h1>GeoFlow: Enforcing Implicit Geometric Consistency in Video Generation</h1>
+    <div class="paper-links" aria-label="Project resources">
+      <a class="paper-link is-disabled" aria-disabled="true">
+        <span class="icon"><i class="ai ai-arxiv"></i></span>
+        <span>arXiv</span>
+      </a>
+      <a class="paper-link" href="https://huggingface.co/ackermannj/geoflow" target="_blank" rel="noopener">
+        <span class="icon"><i class="fa-regular fa-face-smile"></i></span>
+        <span>Model</span>
+      </a>
+      <a class="paper-link" href="https://github.com/geometryflow/GeoFlow" target="_blank" rel="noopener">
+        <span class="icon"><i class="fa-brands fa-github"></i></span>
+        <span>Code</span>
+      </a>
+    </div>
+    <div class="authors">
+      <span class="author-block"><a href="https://janackermann.info">Jan Ackermann</a><sup>1</sup>,</span>
+      <span class="author-block"><a href="https://primecai.github.io/">Shengqu Cai</a><sup>1,*</sup>,</span>
+      <span class="author-block"><a href="https://boyangdeng.com/">Boyang Deng</a><sup>1,*</sup>,</span>
+      <span class="author-block"><a href="https://zhengfeikuang.com/">Zhengfei Kuang</a><sup>1,*</sup>,</span>
+      <span class="author-block"><a href="https://pengsongyou.github.io/">Songyou Peng</a><sup>2</sup>,</span>
+      <span class="author-block"><a href="https://stanford.edu/~gordonwz/">Gordon Wetzstein</a><sup>1</sup></span>
+    </div>
+    <div class="affiliations">
+      <sup>1</sup>Stanford University &nbsp;&nbsp; <sup>2</sup>Google DeepMind &nbsp;&nbsp; <sup>*</sup>Equal contribution
+    </div>
   </header>
+
+  <section class="paper-section" id="abstract">
+    <h2>Abstract</h2>
+    <p class="abstract-text">
+      Generating geometrically consistent videos remains an open challenge: text-to-video diffusion models trained on web-scale data treat geometry only implicitly, leading to object deformation, texture drift, and non-rigid backgrounds under camera motion. Existing solutions either improve consistency as a byproduct, apply only to static scenes or realign the latent space of the model completely. We introduce a geometry-consistency reward that directly measures whether motion in a generated video is compatible with a coherent scene. Our key insight is that in physically consistent videos, background motion should be explainable by rigid camera-induced flow, while independently moving objects should preserve appearance identity along motion trajectories. We operationalize this using optical flow, depth-pose predictions, and feature-based correspondence to separate rigid and dynamic regions and evaluate their respective consistency. Integrating this reward with reinforcement fine-tuning transforms geometric consistency from an emergent property into an explicit optimization objective for video generators. The approach is model agnostic and applies to diverse dynamic scenes containing both camera and object motion. Experiments show substantial reductions in temporal geometric artifacts over strong baselines while preserving perceptual quality.
+    </p>
+  </section>
+
+  <section class="paper-section" id="method">
+    <h2>Method Overview</h2>
+    <figure class="method-figure">
+      <img src="paper_assets/method.png" alt="GeoFlow method overview diagram">
+      <figcaption>
+        <strong>GeoFlow method overview.</strong>
+        <strong>(A)</strong> A video diffusion model generates multiple candidate videos from text prompts using the same initial noise.
+        <strong>(B)</strong> A monocular depth model predicts depth maps, while an optical flow model estimates flow between two frames. Rigid flow is derived from predicted depth and compared with estimated optical flow. The residual flow, depth discrepancy, and feature correspondence define the geometric and semantic consistency scores.
+        <strong>(C)</strong> GRPO computes group-normalized advantages and updates the video generator with a clipped surrogate objective on the first denoising timesteps.
+      </figcaption>
+    </figure>
+  </section>
 
   <!-- Global Controls -->
   <div class="global-controls">
@@ -402,7 +559,9 @@
 
   <!-- Section Nav -->
   <nav class="section-nav">
-    <a class="nav-link" href="#section-teaser">Teaser</a>
+    <a class="nav-link" href="#abstract">Abstract</a>
+    <a class="nav-link" href="#method">Method</a>
+    <a class="nav-link" href="#section-teaser">Teaser Result</a>
     <a class="nav-link" href="#section-wan">Wan vs. Ours</a>
     <a class="nav-link" href="#section-repa">REPA vs. Ours</a>
     <a class="nav-link" href="#section-extended">Extended Wan vs. Ours</a>
