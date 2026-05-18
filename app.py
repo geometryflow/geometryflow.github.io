@@ -53,13 +53,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--baseline-dir",
         type=Path,
-        default=Path("wan_vs_ours_new/wan"),
+        default=Path("assets/videos/wan_vs_ours_new/wan"),
         help="Directory containing baseline videos.",
     )
     parser.add_argument(
         "--ours-dir",
         type=Path,
-        default=Path("wan_vs_ours_new/ours"),
+        default=Path("assets/videos/wan_vs_ours_new/ours"),
         help="Directory containing our generated videos.",
     )
     parser.add_argument(

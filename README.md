@@ -9,8 +9,8 @@ python3 app.py
 
 By default, the app compares matching filenames in:
 
-- `wan_vs_ours_new/wan`
-- `wan_vs_ours_new/ours`
+- `assets/videos/wan_vs_ours_new/wan`
+- `assets/videos/wan_vs_ours_new/ours`
 
 Each user session shuffles the pair order and randomly swaps which model appears on the left. Ratings are appended to `ratings.csv` with the true left/right mapping.
 
